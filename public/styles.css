@@ -1,0 +1,19 @@
+/* Body */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100%;
+}
+
+/* Header */
+
+.header {
+    background-color: black;
+    color: blanchedalmond;
+    padding: 15px 0;
+}
