@@ -29,7 +29,7 @@ const Chart = () => {
           labels: year,
           datasets: [
             {
-              label: "HDI by year",
+              label: "Afghanistan",
               data: hdIndex,
               backgroundColor: "brown",
               borderWidth: 4,
@@ -42,20 +42,24 @@ const Chart = () => {
   useEffect(() => {
     chart();
   }, []);
-  const options ={
-      scales: {
-          y:{
-             beginAtZero:true
-          }      }
-  }
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+      x: {
+          type: 'linear',
+          time:{
+              unit: 'year'
+          }
+      }
+    },
+  };
   return (
     <div>
       <h1>HDI Comparison</h1>
       <div>
-        <Line
-          data={chartData}
-          options={options} 
-        />
+        <Line data={chartData} options={options} />
       </div>
     </div>
   );
