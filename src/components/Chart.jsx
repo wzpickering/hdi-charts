@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 
-const Chart = ()=> {
+const Chart = () => {
   const [chartData, setChartData] = useState({});
   const [year, setYear] = useState([]);
   const [hdi, setHdi] = useState([]);
@@ -17,10 +17,14 @@ const Chart = ()=> {
       )
       .then((res) => {
         console.log(res);
-        for (const dataObj of res.data.data) {
-          hdIndex.push(parseInt(dataObj.value));
-          year.push(parseInt(dataObj.year));
+        for (const dataObj of Object.entries(
+          res.data.indicator_value.AFG[137506]
+        )) {
+          hdIndex.push(dataObj[1]);
+          year.push(parseInt(dataObj[0]));
+          console.log(dataObj);
         }
+        console.log(hdIndex, year);
         setChartData({
           labels: year,
           datasets: [
@@ -35,18 +39,27 @@ const Chart = ()=> {
       })
       .catch((err) => console.log(err));
   };
-  useEffect(()=>{
-      chart();     
+  useEffect(() => {
+    chart();
   }, []);
+  const options ={
+      scales: {
+          y:{
+             beginAtZero:true
+          }      }
+  }
   return (
+    <div>
+      <h1>HDI Comparison</h1>
       <div>
-          <h1>HDI Comparison</h1>
-          <div>
-              <Line data={chartData} />
-          </div>
+        <Line
+          data={chartData}
+          options={options} 
+        />
       </div>
-  )
-}
+    </div>
+  );
+};
 
 export default Chart;
 
