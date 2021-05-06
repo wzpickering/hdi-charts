@@ -17,3 +17,24 @@ body {
     color: blanchedalmond;
     padding: 15px 0;
 }
+
+/* Grid */
+.wrapper {
+display:grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 5px;
+grid-auto-rows: minmax(100px, auto);
+}
+.one{
+    grid-column: 1;
+    grid-row: 1/4;
+    border-style: solid;
+}
+.two {
+    grid-column: 2/4;
+    grid-row: 1/4;
+    margin-right: 100px;
+}
+.two h1 {
+    text-align: center;
+}

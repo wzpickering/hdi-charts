@@ -31,7 +31,7 @@ const Chart = () => {
             {
               label: "Afghanistan",
               data: hdIndex,
-              backgroundColor: "brown",
+              backgroundColor: "green",
               borderWidth: 4,
             },
           ],
@@ -43,15 +43,41 @@ const Chart = () => {
     chart();
   }, []);
   const options = {
+    plugins:{
+      legend:{
+        position: "bottom"
+      }
+    },
     scales: {
       y: {
         beginAtZero: true,
+        
+        title:{
+          display:true,
+          text: "HDI",
+          font: {
+            size: 20,
+            weight: "bold"
+          }
+        }
       },
       x: {
+          title:{
+              display: true,
+              text: "Year",
+              font:{
+                size: 20,
+                weight: "bold"
+                // color: "blue"
+              },
+              
+          },grid:{
+                display: false
+              },
           type: 'linear',
-          time:{
-              unit: 'year'
-          }
+          ticks: {callback: function(value, index, values) {
+            return value;
+        }}
       }
     },
   };
