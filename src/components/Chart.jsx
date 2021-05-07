@@ -16,7 +16,8 @@ const Chart = () => {
         "https://secret-beach-58035.herokuapp.com/http://ec2-54-174-131-205.compute-1.amazonaws.com/API/HDRO_API.php/country_code=AFG/indicator_id=137506/year=1990,1995,2000,2005,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019/structure=ciy"
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
+        // console.log(res.data.indicator_value)
         for (const dataObj of Object.entries(
           res.data.indicator_value.AFG[137506]
         )) {
@@ -24,14 +25,14 @@ const Chart = () => {
           year.push(parseInt(dataObj[0]));
           console.log(dataObj);
         }
-        console.log(hdIndex, year);
+        // console.log(hdIndex, year);
         setChartData({
           labels: year,
           datasets: [
             {
               label: "Afghanistan",
               data: hdIndex,
-              backgroundColor: "green",
+              backgroundColor: options.elements.line.borderColor,
               borderWidth: 4,
             },
           ],
@@ -43,6 +44,11 @@ const Chart = () => {
     chart();
   }, []);
   const options = {
+    elements: {
+      line:{
+        borderColor: "green"
+      }
+    },
     plugins:{
       legend:{
         position: "bottom"
