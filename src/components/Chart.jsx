@@ -23,7 +23,7 @@ const Chart = () => {
         )) {
           hdIndex.push(dataObj[1]);
           year.push(parseInt(dataObj[0]));
-          console.log(dataObj);
+          // console.log(dataObj);
         }
         // console.log(hdIndex, year);
         setChartData({
