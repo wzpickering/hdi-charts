@@ -9,7 +9,7 @@ import axios from "axios";
 import {FixedSizeList} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
-function CountrySelect() {
+function CountrySelect(props) {
   
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,7 +31,12 @@ function CountrySelect() {
   countries.forEach((country)=>{
     countryNames.push(country[1])
   })
+  // const countryCodes = [];
+  // countries.forEach((country)=>{
+  //   countryCodes.push(country[0])
+  // })
   
+  // console.log(countryCodes)
 
   const Row = ({index, style})=>{
       const names = countryNames.filter((value) => {
@@ -48,7 +53,7 @@ function CountrySelect() {
       
       return (
       <div style={style}>
-      {names[index] && <input type="checkbox" />}
+      {names[index] && <input type="checkbox" onClick={()=> props.onAdd(countries[index][0])}/>} 
         <label>{names[index]}</label>
       </div>
       );

@@ -2,18 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 
-const Chart = () => {
+const Chart = (props) => {
   const [chartData, setChartData] = useState({});
-  const [year, setYear] = useState([]);
-  const [hdi, setHdi] = useState([]);
+  // const [year, setYear] = useState([]);
+  // const [hdi, setHdi] = useState([]);
+  let countryCodes = props.countryCodes;
+  console.log(countryCodes)
 
   const chart = () => {
     let hdIndex = [];
     let year = [];
 
+    
+
     axios
       .get(
-        "https://secret-beach-58035.herokuapp.com/http://ec2-54-174-131-205.compute-1.amazonaws.com/API/HDRO_API.php/country_code=AFG/indicator_id=137506/year=1990,1995,2000,2005,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019/structure=ciy"
+        "https://secret-beach-58035.herokuapp.com/http://ec2-54-174-131-205.compute-1.amazonaws.com/API/HDRO_API.php/indicator_id=137506/year=1990,1995,2000,2005,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019/structure=ciy"
       )
       .then((res) => {
         // console.log(res);
