@@ -9,10 +9,10 @@ const Chart = (props) => {
   let countryCodes = props.countryCodes;
   console.log(countryCodes)
 
-  const chart = () => {
+  const chart = (codes) => {
     let hdIndex = [];
     let year = [];
-
+    let ki = "AFG"
     
 
     axios
@@ -21,14 +21,18 @@ const Chart = (props) => {
       )
       .then((res) => {
         // console.log(res);
-        // console.log(res.data.indicator_value)
+        // console.log(Object.entries(Object.entries(
+        //   res.data.indicator_value)[2])[0][1])//the 2 represents Albania
+        // for (let i =0;i<8;i++)
         for (const dataObj of Object.entries(
-          res.data.indicator_value.AFG[137506]
+          res.data.indicator_value[ki][137506]
         )) {
           hdIndex.push(dataObj[1]);
           year.push(parseInt(dataObj[0]));
           // console.log(dataObj);
         }
+
+
         // console.log(hdIndex, year);
         setChartData({
           labels: year,
@@ -61,7 +65,6 @@ const Chart = (props) => {
     scales: {
       y: {
         beginAtZero: true,
-        
         title:{
           display:true,
           text: "HDI",
@@ -91,6 +94,14 @@ const Chart = (props) => {
       }
     },
   };
+
+//   function addData(chart, label, data) {
+//     chart.data.datasets.forEach((dataset) => {
+//         dataset.data.push(data);
+//     });
+//     chart.update();
+// }
+
   return (
     <div>
       <h1>HDI Comparison</h1>
