@@ -7,100 +7,116 @@ const Chart = (props) => {
   // const [year, setYear] = useState([]);
   // const [hdi, setHdi] = useState([]);
   let countryCodes = props.countryCodes;
-  console.log(countryCodes)
+  console.log(countryCodes);
+  const colors = [
+    "#5258fa",
+    "#f23d49",
+    "#51a13d",
+    "#cad642",
+    "#42d6bb",
+    "#f0b930",
+    "#d62fc5",
+    "#1c2945",
+  ];
 
-  const chart = (codes) => {
+  const chart = () => {
     let hdIndex = [];
     let year = [];
-    let ki = "AFG"
-    
 
-    axios
-      .get(
-        "https://secret-beach-58035.herokuapp.com/http://ec2-54-174-131-205.compute-1.amazonaws.com/API/HDRO_API.php/indicator_id=137506/year=1990,1995,2000,2005,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019/structure=ciy"
-      )
-      .then((res) => {
-        // console.log(res);
-        // console.log(Object.entries(Object.entries(
-        //   res.data.indicator_value)[2])[0][1])//the 2 represents Albania
-        // for (let i =0;i<8;i++)
-        for (const dataObj of Object.entries(
-          res.data.indicator_value[ki][137506]
-        )) {
-          hdIndex.push(dataObj[1]);
-          year.push(parseInt(dataObj[0]));
-          // console.log(dataObj);
-        }
-
-
-        // console.log(hdIndex, year);
-        setChartData({
-          labels: year,
-          datasets: [
-            {
-              label: "Afghanistan",
+    if (countryCodes.length > 0) {
+      axios
+        .get(
+          "https://secret-beach-58035.herokuapp.com/http://ec2-54-174-131-205.compute-1.amazonaws.com/API/HDRO_API.php/indicator_id=137506/year=1990,1995,2000,2005,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019/structure=ciy"
+        )
+        .then((res) => {
+          const datasets = [];
+          countryCodes.forEach((cCode, index) => {
+            const hdIndex = [];
+            for (const dataObj of Object.entries(
+              res.data.indicator_value[countryCodes[index]][137506]
+            )) {
+              hdIndex.push(dataObj[1]);
+              year.push(parseInt(dataObj[0]));
+              // console.log(dataObj);
+            }
+            datasets.push({
+              label: cCode,
               data: hdIndex,
-              backgroundColor: options.elements.line.borderColor,
+              backgroundColor: colors[index], //options.elements.line.borderColor,
+              borderColor: colors[index],
               borderWidth: 4,
-            },
-          ],
-        });
-      })
-      .catch((err) => console.log(err));
+            });
+          });
+
+          // console.log(hdIndex, year);
+          setChartData({
+            labels: year,
+            datasets,
+          });
+        })
+        .catch((err) => console.log(err));
+    } else {
+      setChartData({
+        labels: year,
+        datasets: [],
+      });
+    }
   };
   useEffect(() => {
     chart();
-  }, []);
+  }, [countryCodes]);
   const options = {
     elements: {
-      line:{
-        borderColor: "green"
-      }
+      line: {
+        borderColor: "green",
+      },
     },
-    plugins:{
-      legend:{
-        position: "bottom"
-      }
+    plugins: {
+      legend: {
+        position: "bottom",
+      },
     },
     scales: {
       y: {
         beginAtZero: true,
-        title:{
-          display:true,
+        title: {
+          display: true,
           text: "HDI",
           font: {
             size: 20,
-            weight: "bold"
-          }
-        }
+            weight: "bold",
+          },
+        },
       },
       x: {
-          title:{
-              display: true,
-              text: "Year",
-              font:{
-                size: 20,
-                weight: "bold"
-                // color: "blue"
-              },
-              
-          },grid:{
-                display: false
-              },
-          type: 'linear',
-          ticks: {callback: function(value, index, values) {
+        title: {
+          display: true,
+          text: "Year",
+          font: {
+            size: 20,
+            weight: "bold",
+            // color: "blue"
+          },
+        },
+        grid: {
+          display: false,
+        },
+        type: "linear",
+        ticks: {
+          callback: function (value, index, values) {
             return value;
-        }}
-      }
+          },
+        },
+      },
     },
   };
 
-//   function addData(chart, label, data) {
-//     chart.data.datasets.forEach((dataset) => {
-//         dataset.data.push(data);
-//     });
-//     chart.update();
-// }
+  //   function addData(chart, label, data) {
+  //     chart.data.datasets.forEach((dataset) => {
+  //         dataset.data.push(data);
+  //     });
+  //     chart.update();
+  // }
 
   return (
     <div>
@@ -113,83 +129,3 @@ const Chart = (props) => {
 };
 
 export default Chart;
-
-// import React, { useState, useEffect } from "react";
-// import { Line } from "react-chartjs-2";
-// import axios from "axios";
-
-// const Dankmemes = () => {
-//   const [chartData, setChartData] = useState({});
-//   const [employeeSalary, setEmployeeSalary] = useState([]);
-//   const [employeeAge, setEmployeeAge] = useState([]);
-
-//   const chart = () => {
-//     let empSal = [];
-//     let empAge = [];
-//     axios
-//       .get("https://secret-beach-58035.herokuapp.com/http://ec2-54-174-131-205.compute-1.amazonaws.com/API/HDRO_API.php/country_code=AFG/indicator_id=137506/year=1990,1995,2000,2005,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019")
-//       .then(res => {
-//         console.log(res);
-//         for (const dataObj of res.data.data) {
-//           empSal.push(parseInt(dataObj.employee_salary));
-//           empAge.push(parseInt(dataObj.employee_age));
-//         }
-//         setChartData({
-//           labels: empAge,
-//           datasets: [
-//             {
-//               label: "level of thiccness",
-//               data: empSal,
-//               backgroundColor: ["rgba(75, 192, 192, 0.6)"],
-//               borderWidth: 4
-//             }
-//           ]
-//         });
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//     console.log(empSal, empAge);
-//   };
-
-//   useEffect(() => {
-//     chart();
-//   }, []);
-//   return (
-//     <div className="App">
-//       <h1>Dankmemes</h1>
-//       <div>
-//         <Line
-//           data={chartData}
-//           options={{
-//             responsive: true,
-//             title: { text: "THICCNESS SCALE", display: true },
-//             scales: {
-//               yAxes: [
-//                 {
-//                   ticks: {
-//                     autoSkip: true,
-//                     maxTicksLimit: 10,
-//                     beginAtZero: true
-//                   },
-//                   gridLines: {
-//                     display: false
-//                   }
-//                 }
-//               ],
-//               xAxes: [
-//                 {
-//                   gridLines: {
-//                     display: false
-//                   }
-//                 }
-//               ]
-//             }
-//           }}
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Dankmemes;

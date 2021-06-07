@@ -6,11 +6,10 @@ import React, { useState, useEffect, useCallback } from "react";
 //   CellMeasurerCache,
 // } from "react-virtualized";
 import axios from "axios";
-import {FixedSizeList} from "react-window";
+import { FixedSizeList } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 function CountrySelect(props) {
-  
   const [countries, setCountries] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -21,6 +20,10 @@ function CountrySelect(props) {
     setCountries(Object.entries(data.country_name)); //each entry is an array. [0] for countryCode, [1] for name.
     // console.log(data);
   };
+  const onChangeHandler = (evt) => {
+    const country = evt.target.id;
+    props.toggleCountry(country);
+  }
   //ask Kris what's happening here
 
   useEffect(() => {
@@ -28,52 +31,59 @@ function CountrySelect(props) {
   }, []);
 
   const countryNames = [];
-  countries.forEach((country)=>{
-    countryNames.push(country[1])
-  })
+  countries.forEach((country) => {
+    countryNames.push(country[1]);
+  });
   // const countryCodes = [];
   // countries.forEach((country)=>{
   //   countryCodes.push(country[0])
   // })
-  
+
   // console.log(countryCodes)
 
-  const Row = ({index, style})=>{
-      const names = countryNames.filter((value) => {
+  const Row = ({ index, style }) => {
+    const names =
+      countryNames.filter((value) => {
         if (
           searchTerm === "" ||
           value.toLowerCase().includes(searchTerm.toLowerCase())
         ) {
           // console.log(value[1])
-          return <div> value</div> ;
+          return <div> value</div>;
         } else {
           return "";
         }
-      })|| {};
-      
-      return (
+      }) || {};
+
+    return (
       <div style={style}>
-      {names[index] && <input type="checkbox" onClick={()=> props.onAdd(countries[index][0])}/>} 
+        {names[index] && (
+          <input
+            id={countries[index][0]}
+            type="checkbox"
+            checked={props.countries.indexOf(countries[index][0]) > -1}
+            onChange={onChangeHandler}
+          />
+        )}
         <label>{names[index]}</label>
       </div>
-      );
-  }
+    );
+  };
 
   return (
-    
     <div className="country-select">
-    <input
+      <input
         placeholder="Search"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-    <FixedSizeList
-          height={400}
-          width={400}
-          itemSize={20}
-          itemCount={countries.length}
-        >
-          {Row}
-        </FixedSizeList>
+      <FixedSizeList
+        height={400}
+        width={400}
+        itemSize={20}
+        itemCount={countries.length}
+      >
+        {Row}
+      </FixedSizeList>
       {/* <input
         placeholder="Search"
         onChange={(e) => setSearchTerm(e.target.value)}
