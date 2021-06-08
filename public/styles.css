@@ -44,3 +44,9 @@ grid-auto-rows: minmax(100px, auto);
     max-height: 400px;
     z-index: 4;
 }
+.listItemOdd{
+  
+}
+.listItemEven{
+    background: "#5258fa"; 
+}

@@ -23,8 +23,8 @@ function CountrySelect(props) {
   const onChangeHandler = (evt) => {
     const country = evt.target.id;
     props.toggleCountry(country);
-  }
-  //ask Kris what's happening here
+  };
+  //ask what's happening here
 
   useEffect(() => {
     getData();
@@ -44,19 +44,20 @@ function CountrySelect(props) {
   const Row = ({ index, style }) => {
     const names =
       countryNames.filter((value) => {
-        if (
+         if (
           searchTerm === "" ||
           value.toLowerCase().includes(searchTerm.toLowerCase())
         ) {
           // console.log(value[1])
-          return <div> value</div>;
+          return <div 
+          > {value}</div>;
         } else {
           return "";
         }
       }) || {};
 
     return (
-      <div style={style}>
+      <div style={style} className={index % 2 ? "listItemOdd": "listItemEven"}>
         {names[index] && (
           <input
             id={countries[index][0]}
@@ -76,9 +77,10 @@ function CountrySelect(props) {
         placeholder="Search"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      
       <FixedSizeList
-        height={400}
-        width={400}
+        height={430}
+        width={490}
         itemSize={20}
         itemCount={countries.length}
       >

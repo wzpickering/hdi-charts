@@ -3,11 +3,15 @@ import { Line } from "react-chartjs-2";
 import axios from "axios";
 
 const Chart = (props) => {
-  const [chartData, setChartData] = useState({});
+  const initialChartData = {
+    labels: Array(30).fill(1990).map((y, idx) => y + idx),
+    datasets: [{ data: Array(30).fill(null)}],
+  }
+  const [chartData, setChartData] = useState(initialChartData);
+  console.log(chartData)
   // const [year, setYear] = useState([]);
   // const [hdi, setHdi] = useState([]);
   let countryCodes = props.countryCodes;
-  console.log(countryCodes);
   const colors = [
     "#5258fa",
     "#f23d49",
@@ -20,8 +24,6 @@ const Chart = (props) => {
   ];
 
   const chart = () => {
-    let hdIndex = [];
-    let year = [];
 
     if (countryCodes.length > 0) {
       axios
@@ -30,14 +32,35 @@ const Chart = (props) => {
         )
         .then((res) => {
           const datasets = [];
+          let years = [];
+          let minYear = 10000;
+            let maxYear = 0;
           countryCodes.forEach((cCode, index) => {
-            const hdIndex = [];
+            // First pass and find the max and min years that we need
+            
             for (const dataObj of Object.entries(
               res.data.indicator_value[countryCodes[index]][137506]
             )) {
-              hdIndex.push(dataObj[1]);
-              year.push(parseInt(dataObj[0]));
-              // console.log(dataObj);
+              const year = parseInt(dataObj[0]);
+              if(year < minYear) minYear = year;
+              if(year > maxYear) maxYear = year;
+            }
+          })
+          for (let i = 0; i <= (maxYear-minYear); i++){
+              years.push(minYear + i);
+            }
+
+
+          countryCodes.forEach((cCode, index) => {
+            // Second pass we create separate datasets that will correctly correspond
+            //to the year
+            const hdIndex = Array(years.length).fill(null);
+            for (const dataObj of Object.entries(
+              res.data.indicator_value[countryCodes[index]][137506]
+            )) {
+              const year = parseInt(dataObj[0]);
+              const yearIdx = years.indexOf(year);
+              hdIndex[yearIdx] = dataObj[1];
             }
             datasets.push({
               label: cCode,
@@ -45,26 +68,26 @@ const Chart = (props) => {
               backgroundColor: colors[index], //options.elements.line.borderColor,
               borderColor: colors[index],
               borderWidth: 4,
+              spanGaps: true,
             });
           });
 
-          // console.log(hdIndex, year);
           setChartData({
-            labels: year,
+            labels: years,
             datasets,
           });
         })
         .catch((err) => console.log(err));
-    } else {
-      setChartData({
-        labels: year,
-        datasets: [],
-      });
     }
   };
   useEffect(() => {
-    chart();
+    if(countryCodes.length > 0){
+      chart();
+    }else{
+      setChartData(initialChartData);
+    }
   }, [countryCodes]);
+  
   const options = {
     elements: {
       line: {
@@ -73,6 +96,7 @@ const Chart = (props) => {
     },
     plugins: {
       legend: {
+        display: chartData.datasets[0].data.find((datapoint) => datapoint !== null) !== undefined,
         position: "bottom",
       },
     },
