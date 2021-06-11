@@ -66,7 +66,7 @@ function CountrySelect(props) {
             onChange={onChangeHandler}
           />
         )}
-        <label>{names[index]}</label>
+        <label> {names[index]}</label>
       </div>
     );
   };

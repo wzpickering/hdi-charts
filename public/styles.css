@@ -17,6 +17,10 @@ body {
     color: blanchedalmond;
     padding: 15px 0;
 }
+.header h1{
+    position: relative;
+    left: 10px;
+}
 
 /* Grid */
 .wrapper {
@@ -28,15 +32,27 @@ grid-auto-rows: minmax(100px, auto);
 .one{
     grid-column: 1;
     grid-row: 1/4;
-    border-style: solid;
+    border-style: solid; 
+    margin-right: 20px;  
+    border-top: 0ch;
 }
 .two {
     grid-column: 2/4;
     grid-row: 1/4;
-    margin-right: 100px;
-}
+    margin-right: 100px;    
+    /* border-style: solid; */
+    position: relative;
+    right: 0px;
+    margin-left: -10px;  
+    width: 100%;
+} 
 .two h1 {
     text-align: center;
+}
+.three {
+    grid-column: 1/4;
+    grid-row: 4;
+    border-style: solid;
 }
 
 /* Country List */
@@ -48,5 +64,17 @@ grid-auto-rows: minmax(100px, auto);
   
 }
 .listItemEven{
-    background: "#5258fa"; 
+    background-color: blanchedalmond !important; 
+}
+
+/* Footer */
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    background-color: black;
+    color: blanchedalmond;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
 }

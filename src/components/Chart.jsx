@@ -8,7 +8,7 @@ const Chart = (props) => {
     datasets: [{ data: Array(30).fill(null)}],
   }
   const [chartData, setChartData] = useState(initialChartData);
-  console.log(chartData)
+  // console.log(chartData)
   // const [year, setYear] = useState([]);
   // const [hdi, setHdi] = useState([]);
   let countryCodes = props.countryCodes;
