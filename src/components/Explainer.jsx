@@ -2,7 +2,7 @@ import React from "react";
 
 function Explainer() {
   return (
-    <div>
+    <div className="explainer">
       <h2>What is the Human Development Index? (HDI)</h2>
       <p>
         The HDI is a composite score that combines GDP per capita, life

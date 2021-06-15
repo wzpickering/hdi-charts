@@ -20,6 +20,8 @@ body {
 .header h1{
     position: relative;
     left: 10px;
+    font-family: 'Montserrat';
+    font-size: 2rem;
 }
 
 /* Grid */
@@ -28,6 +30,7 @@ display:grid;
 grid-template-columns: repeat(3, 1fr);
 gap: 5px;
 grid-auto-rows: minmax(100px, auto);
+grid-template-areas: "one two three";
 }
 .one{
     grid-column: 1;
@@ -45,14 +48,32 @@ grid-auto-rows: minmax(100px, auto);
     right: 0px;
     margin-left: -10px;  
     width: 100%;
+    border-radius: 15px;
+
 } 
 .two h1 {
     text-align: center;
 }
 .three {
+    position: relative;
     grid-column: 1/4;
     grid-row: 4;
     border-style: solid;
+    bottom: 8px;
+    /* top: 50px; */
+    height: 224%;
+    background-color: #fcf6e1;
+    border-bottom: 0;
+    border-left:0;
+    border-right:0;
+    }
+h2{
+    margin: 20px 0 10px 20px;
+    font-family: "Montserrat";
+}
+.explainer p{
+margin-left: 20px;
+font-family: "Hind", sans-serif;
 }
 
 /* Country List */
@@ -61,10 +82,25 @@ grid-auto-rows: minmax(100px, auto);
     z-index: 4;
 }
 .listItemOdd{
-  
+
 }
 .listItemEven{
-    background-color: blanchedalmond !important; 
+    background-color: #fcf6e1 !important; 
+}
+.country-name{
+    font-family: "hind", sans-serif;
+}
+.check{
+    margin-left:10px
+}
+.search{
+    line-height: 1.5rem;
+}
+
+/* Chart */
+.graph-title{
+    font-family: "Montserrat";
+    color: #616060;
 }
 
 /* Footer */
@@ -77,4 +113,9 @@ grid-auto-rows: minmax(100px, auto);
     display: inline-block;
     text-align: center;
     width: 100%;
+    position:fixed;
+    bottom: 0;
+}
+.footer p{
+    font-family: "Prompt", sans-serif;
 }

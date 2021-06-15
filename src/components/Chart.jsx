@@ -119,7 +119,6 @@ const Chart = (props) => {
           font: {
             size: 20,
             weight: "bold",
-            // color: "blue"
           },
         },
         grid: {
@@ -135,16 +134,9 @@ const Chart = (props) => {
     },
   };
 
-  //   function addData(chart, label, data) {
-  //     chart.data.datasets.forEach((dataset) => {
-  //         dataset.data.push(data);
-  //     });
-  //     chart.update();
-  // }
-
   return (
     <div>
-      <h1>HDI Comparison</h1>
+      <h1 className="graph-title">HDI Graphic</h1>
       <div>
         <Line data={chartData} options={options} />
       </div>
