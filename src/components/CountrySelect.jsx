@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FixedSizeList } from "react-window";
-// import AutoSizer from "react-virtualized-auto-sizer";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 function CountrySelect(props) {
   const [countries, setCountries] = useState([]);
@@ -65,15 +65,18 @@ function CountrySelect(props) {
         placeholder="Search"
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-
+      <AutoSizer>
+      {({height, width})=>(
       <FixedSizeList
-        height={473}
-        width={490}
+        height={height}
+        width={width}
         itemSize={20}
         itemCount={countries.length}
       >
         {Row}
       </FixedSizeList>
+      )}
+      </AutoSizer>
     </div>
   );
 }
