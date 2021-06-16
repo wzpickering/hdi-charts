@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FixedSizeList } from "react-window";
+import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 
 function CountrySelect(props) {
@@ -14,7 +14,7 @@ function CountrySelect(props) {
     );
     setCountries(Object.entries(data.country_name)); //each entry is an array. [0] for countryCode, [1] for name.
   };
-  
+
   const onChangeHandler = (evt) => {
     const country = evt.target.id;
     props.toggleCountry(country);
@@ -42,42 +42,42 @@ function CountrySelect(props) {
       <div style={style} className={index % 2 ? "listItemOdd" : "listItemEven"}>
         {names[index] && (
           <>
-          <input 
-            className="check"
-            id={names[index][0]}
-            type="checkbox"
-            checked={props.countries.indexOf(names[index][0]) > -1}
-            onChange={onChangeHandler}
-          />
-           <label className="country-name"> {names[index][1]}</label>
-           </>
+            <input
+              className="check"
+              id={names[index][0]}
+              type="checkbox"
+              checked={props.countries.indexOf(names[index][0]) > -1}
+              onChange={onChangeHandler}
+            />
+            <label className="country-name"> {names[index][1]}</label>
+          </>
         )}
-       
       </div>
     );
   };
 
   return (
-    <div className="country-select">
-      <input
-        className="search"
-        size="33"
-        placeholder="Search"
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <AutoSizer>
-      {({height, width})=>(
-      <FixedSizeList
-        height={height}
-        width={width}
-        itemSize={20}
-        itemCount={countries.length}
-      >
-        {Row}
-      </FixedSizeList>
+    <AutoSizer>
+      {({ height, width }) => (
+        <div className="country-select">
+          <input
+            className="search"
+            size="33"
+            placeholder="Search"
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+
+          <List
+            height={height}
+            width={width-8}
+            itemSize={20}
+            itemCount={countries.length}
+          >
+            {Row}
+          </List>
+        </div>
       )}
-      </AutoSizer>
-    </div>
+    </AutoSizer>
   );
 }
 
